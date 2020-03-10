@@ -1,5 +1,8 @@
-
-import Framework7, { Device, Request, Utils } from 'framework7/framework7-lite.esm.js';
+import Framework7, {
+  Device,
+  Request,
+  Utils
+} from 'framework7/framework7-lite.esm.js';
 import Dialog from 'framework7/components/dialog/dialog.js';
 import Popup from 'framework7/components/popup/popup.js';
 import LoginScreen from 'framework7/components/login-screen/login-screen.js';
