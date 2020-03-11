@@ -30,12 +30,6 @@
             :error-message-force="!!password.error"
             @input="password.value = $event.target.value"
           ></f7-list-input>
-
-          <f7-block>
-            <f7-button fill large type="submit" @click.prevent="create">
-              Создать
-            </f7-button>
-          </f7-block>
         </f7-list>
 
         <f7-block-title class="title-with-actions">
@@ -56,17 +50,31 @@
             ></f7-toggle>
           </f7-list-item>
         </f7-list>
+
+        <f7-block>
+          <f7-button fill large type="submit" @click.prevent="create">
+            Создать
+          </f7-button>
+        </f7-block>
       </f7-page>
     </f7-view>
   </f7-popup>
 </template>
 
 <script>
+import { merge, isEmpty } from 'lodash';
+import { db, usersCollectionRef, auth } from '@/js/firebaseConfig.js';
+import notify from '@/js/helpers/notify.js';
+import validateEmail from '@/js/helpers/validateEmail.js';
+import firebaseErrorToHumanError from '@/js/const/firebaseErrorToHumanError.js';
+
 export default {
   name: 'CreateEmployee',
 
   data() {
     return {
+      email: { value: '', error: '' },
+      password: { value: '', error: '' },
       permissions: [
         {
           name: 'canCreateEmployeers',
@@ -78,15 +86,86 @@ export default {
           title: 'Редактирование Сотрудников',
           value: false
         }
-      ],
-      email: { value: '', error: '' },
-      password: { value: '', error: '' }
+      ]
     };
   },
 
   methods: {
+    validate() {
+      const errors = {};
+      const { email, password } = this;
+
+      email.error = '';
+      password.error = '';
+
+      if (!validateEmail(email.value)) {
+        errors.email = 'Неправильный формат эл. почты';
+      }
+
+      if (!email.value) {
+        errors.email = 'Обязательное поле';
+      }
+
+      if (!password.value) {
+        errors.password = 'Обязательное поле';
+      }
+
+      if (password.value.length < 6) {
+        errors.password = 'Минимум 6 символов';
+      }
+
+      if (isEmpty(errors)) {
+        return true;
+      }
+
+      Object.keys(errors).forEach(error => {
+        errors[error] = {
+          error: errors[error]
+        };
+      });
+
+      console.log(errors);
+
+      merge(this.email, errors.email);
+      merge(this.password, errors.password);
+    },
+
+    setUserInfo(uid) {
+      const permissions = this.permissions.reduce((result, item) => {
+        result[item['name']] = item['value'];
+        return result;
+      }, {});
+
+      usersCollectionRef.doc(uid).set({
+        ...permissions
+      });
+    },
+
     create() {
-      console.log('CREATE');
+      if (!this.validate()) {
+        return;
+      }
+
+      const { email, password } = this;
+
+      this.$f7.dialog.preloader('Регистрация сотрудника...');
+      auth
+        .createUserWithEmailAndPassword(email.value, password.value)
+        .then(userCredential => {
+          this.$f7.dialog.close();
+
+          const {
+            user: { uid }
+          } = userCredential;
+
+          this.setUserInfo(uid);
+        })
+        .catch(error => {
+          this.$f7.dialog.close();
+          firebaseErrorToHumanError(error.code, message => {
+            notify(message);
+          });
+        });
     }
   }
 };

@@ -82,8 +82,6 @@ export default {
         };
       });
 
-      console.log(errors);
-
       merge(this.email, errors.email);
       merge(this.password, errors.password);
     },
