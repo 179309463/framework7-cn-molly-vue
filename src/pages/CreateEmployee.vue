@@ -4,7 +4,7 @@
       <f7-page>
         <f7-navbar title="Создание Сотрудника">
           <f7-nav-right>
-            <f7-link popup-close="#popup-create-employee" icon-f7=""></f7-link>
+            <f7-link popup-close="#popup-create-employee">Закрыть</f7-link>
           </f7-nav-right>
         </f7-navbar>
 

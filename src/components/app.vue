@@ -36,15 +36,15 @@ export default {
   },
 
   mounted() {
-    this.$f7ready(() => {
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          // console.log(user, 'user');
-        } else {
-          // this.$f7.loginScreen.open('#login-screen');
-        }
-      });
-    });
+    // this.$f7ready(() => {
+    //   auth.onAuthStateChanged(user => {
+    //     if (user) {
+    //       console.log(user, 'user');
+    //     } else {
+    //       this.$f7.loginScreen.open('#login-screen');
+    //     }
+    //   });
+    // });
   }
 };
 </script>

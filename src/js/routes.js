@@ -1,6 +1,7 @@
 import HomePage from '@/pages/Home.vue';
 import AdminPage from '@/pages/Admin.vue';
 import CreateEmployeePopup from '@/pages/CreateEmployee.vue';
+import CreateServicesPopup from '@/pages/CreateServices.vue';
 import NotFoundPage from '@/pages/404.vue';
 
 var routes = [
@@ -17,6 +18,12 @@ var routes = [
     path: '/create-employee',
     popup: {
       component: CreateEmployeePopup
+    }
+  },
+  {
+    path: '/create-services',
+    popup: {
+      component: CreateServicesPopup
     }
   },
 
