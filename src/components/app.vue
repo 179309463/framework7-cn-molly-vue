@@ -28,6 +28,10 @@ export default {
         name: APP_NAME,
         theme: THEME,
         routes,
+        dialog: {
+          buttonOk: 'Ок',
+          buttonCancel: 'Отмена'
+        },
         serviceWorker: {
           path: '/service-worker.js'
         }

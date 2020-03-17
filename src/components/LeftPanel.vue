@@ -1,5 +1,5 @@
 <template>
-  <f7-panel class="color-theme-black" left cover>
+  <f7-panel class="color-theme-black" left cover swipe :swipeActiveArea="250">
     <f7-view links-view=".view-main">
       <f7-page>
         <f7-navbar title="Бггг" large></f7-navbar>
