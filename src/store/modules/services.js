@@ -61,7 +61,7 @@ export default {
             commit(SET_SERVICES, services);
             resolve();
           })
-          .catch(error => reject({ error }));
+          .catch(error => reject(error));
       });
     },
 
@@ -82,9 +82,7 @@ export default {
             dispatch('setService', doc.id);
             resolve();
           })
-          .catch(error => {
-            reject({ error });
-          });
+          .catch(error => reject(error));
       });
     },
 
@@ -113,9 +111,7 @@ export default {
             });
             resolve();
           })
-          .catch(error => {
-            reject({ error });
-          });
+          .catch(error => reject(error));
       });
     },
 
@@ -128,7 +124,7 @@ export default {
             commit(DELETE_SERVICE, { docId, category });
             resolve();
           })
-          .catch(error => reject({ error }));
+          .catch(error => reject(error));
       });
     },
 

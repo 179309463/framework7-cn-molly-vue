@@ -21,9 +21,21 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+// Firestore
 const db = firebase.firestore();
+const employeesCollection = db.collection('employees');
+const clientsCollection = db.collection('clients');
 const servicesCollection = db.collection('services');
+
+// Authorization
 const auth = firebase.auth();
 const currentUser = auth.currentUser;
 
-export { db, servicesCollection, auth, currentUser };
+export {
+  db,
+  employeesCollection,
+  servicesCollection,
+  clientsCollection,
+  auth,
+  currentUser
+};

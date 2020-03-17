@@ -11,7 +11,8 @@
         <f7-block-title>
           Данные для входа
         </f7-block-title>
-        <f7-list form>
+
+        <f7-list>
           <f7-list-input
             type="text"
             name="username"
@@ -33,14 +34,10 @@
         </f7-list>
 
         <f7-block-title class="title-with-actions">
-          Уровни доступа
-
-          <f7-link
-            href="/create-employee"
-            icon-f7="ellipsis_circle_fill"
-            icon-size="23"
-          ></f7-link>
+          Разрешенные действия
+          <f7-link icon-f7="ellipsis_circle_fill" icon-size="23"></f7-link>
         </f7-block-title>
+
         <f7-list>
           <f7-list-item v-for="(permission, index) in permissions" :key="index">
             <span>{{ permission.title }}</span>
@@ -52,7 +49,12 @@
         </f7-list>
 
         <f7-block>
-          <f7-button fill large type="submit" @click.prevent="create">
+          <f7-button
+            fill
+            large
+            type="submit"
+            @click.prevent="handleCreateEmployee"
+          >
             Создать
           </f7-button>
         </f7-block>
@@ -63,7 +65,7 @@
 
 <script>
 import { merge, isEmpty } from 'lodash';
-import { db, usersCollectionRef, auth } from '@/js/firebaseConfig.js';
+import { db, auth, staffCollection } from '@/js/firebaseConfig.js';
 import notify from '@/js/helpers/notify.js';
 import validateEmail from '@/js/helpers/validateEmail.js';
 import firebaseErrorToHumanError from '@/js/const/firebaseErrorToHumanError.js';
@@ -84,6 +86,16 @@ export default {
         {
           name: 'canEditEmployeers',
           title: 'Редактирование Сотрудников',
+          value: false
+        },
+        {
+          name: 'canCreateServices',
+          title: 'Создание услуг',
+          value: false
+        },
+        {
+          name: 'canEditServices',
+          title: 'Редактирование услуг',
           value: false
         }
       ]
@@ -135,30 +147,29 @@ export default {
         result[item['name']] = item['value'];
         return result;
       }, {});
-
-      usersCollectionRef.doc(uid).set({
-        ...permissions
-      });
     },
 
-    create() {
+    handleCreateEmployee() {
       if (!this.validate()) {
         return;
       }
 
       const { email, password } = this;
+      const permissions = this.permissions.reduce((result, item) => {
+        result[item['name']] = item['value'];
+        return result;
+      }, {});
 
       this.$f7.dialog.preloader('Регистрация сотрудника...');
-      auth
-        .createUserWithEmailAndPassword(email.value, password.value)
-        .then(userCredential => {
+
+      this.$store
+        .dispatch('employees/createEmployee', {
+          email: email.value,
+          password: password.value,
+          permissions
+        })
+        .then(() => {
           this.$f7.dialog.close();
-
-          const {
-            user: { uid }
-          } = userCredential;
-
-          this.setUserInfo(uid);
         })
         .catch(error => {
           this.$f7.dialog.close();

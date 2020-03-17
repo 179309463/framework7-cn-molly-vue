@@ -53,7 +53,7 @@
             type="text"
             name="maxCoast"
             inputmode="tel"
-            placeholder="Максимальная Цена"
+            placeholder="Максимальная цена"
             info="руб"
             :value="maxCoast.value"
             :error-message="maxCoast.error"

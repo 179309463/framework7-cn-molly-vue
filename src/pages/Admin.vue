@@ -12,7 +12,6 @@
       <!-- Сотрудники -->
       <f7-block-title class="title-with-actions">
         Сотрудники
-
         <f7-link
           href="/create-employee"
           icon-f7="plus_circle_fill"
@@ -37,7 +36,6 @@
       <!-- Услуги -->
       <f7-block-title class="title-with-actions">
         Услуги
-
         <f7-link
           href="/create-services"
           icon-f7="plus_circle_fill"
