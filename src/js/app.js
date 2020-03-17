@@ -8,7 +8,7 @@ import '@/css/framework7-custom.less';
 import '@/css/icons.less';
 import '@/css/app.less';
 
-import App from '@/components/app.vue';
+import App from '@/components/App.vue';
 
 Framework7.use(Framework7Vue);
 

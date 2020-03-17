@@ -1,10 +1,17 @@
 <template>
-  <f7-popup id="popup-create-services" swipe-to-close push>
+  <f7-popup id="popup-edit-services" swipe-to-close push>
     <f7-view class="color-theme-black">
       <f7-page>
-        <f7-navbar title="Создание Услуги">
+        <f7-navbar>
+          <f7-nav-left>
+            <f7-link
+              icon-f7="trash_circle_fill"
+              @click="handleDeleteService"
+            ></f7-link>
+          </f7-nav-left>
+          <f7-nav-title>Редактирование Услуги</f7-nav-title>
           <f7-nav-right>
-            <f7-link popup-close="#popup-create-services">Закрыть</f7-link>
+            <f7-link popup-close="#popup-edit-services">Закрыть</f7-link>
           </f7-nav-right>
         </f7-navbar>
 
@@ -31,7 +38,7 @@
               sheetCloseLinkText: 'Закрыть'
             }"
           >
-            <select name="Категория" v-model="category">
+            <select name="Категория" v-model="newCategory">
               <option value="manicure" selected>Маникюр</option>
               <option value="pedicure">Педикюр</option>
             </select>
@@ -62,14 +69,26 @@
           ></f7-list-input>
 
           <f7-block>
-            <f7-button
-              fill
-              large
-              type="submit"
-              @click.prevent="handleCreateService"
-            >
-              Создать
-            </f7-button>
+            <f7-segmented>
+              <!-- <f7-button
+                fill
+                large
+                type="button"
+                class="color-theme-red"
+                @click.prevent="handleDeleteService"
+              >
+                Удалить
+              </f7-button> -->
+
+              <f7-button
+                fill
+                large
+                type="submit"
+                @click.prevent="handleChangeService"
+              >
+                Изменить
+              </f7-button>
+            </f7-segmented>
           </f7-block>
         </f7-list>
       </f7-page>
@@ -79,18 +98,43 @@
 
 <script>
 import { merge, isEmpty } from 'lodash';
+import { mapActions } from 'vuex';
 import { servicesCollection } from '@/js/firebaseConfig.js';
+import notify from '@/js/helpers/notify.js';
 
 export default {
-  name: 'CreateServices',
+  name: 'EditServices',
+
+  props: {
+    category: {
+      type: String,
+      required: true
+    }
+  },
 
   data() {
     return {
       title: { value: '', error: '' },
-      category: 'manicure',
+      newCategory: this.category,
       coast: { value: '', error: '' },
       maxCoast: { value: '', error: '' }
     };
+  },
+
+  computed: {
+    service() {
+      return this.$store.state.services.services[this.category].find(
+        service => service.id === this.$f7route.params.id
+      );
+    }
+  },
+
+  created() {
+    const { title, coast, maxCoast } = this;
+
+    title.value = this.service.title;
+    coast.value = this.service.coast;
+    maxCoast.value = this.service.maxCoast;
   },
 
   methods: {
@@ -123,25 +167,44 @@ export default {
       merge(this.coast, errors.coast);
     },
 
-    handleCreateService() {
+    handleChangeService() {
       if (!this.validate()) {
         return;
       }
 
-      const { title, category, coast, maxCoast } = this;
+      const { title, newCategory, coast, maxCoast } = this;
 
-      this.$store
-        .dispatch('services/createService', {
-          title: title.value,
-          category: category,
-          coast: coast.value,
-          maxCoast: maxCoast.value,
-          currency: 'руб'
-        })
-        .then(doc => {
-          this.$f7.popup.close('#popup-create-services');
-        });
-    }
+      this.updateService({
+        docId: this.$f7route.params.id,
+        title: title.value,
+        category: newCategory,
+        coast: coast.value,
+        maxCoast: maxCoast.value,
+        currency: 'руб'
+      }).then(() => {
+        notify('Данные об услуге успешно изменены!');
+      });
+    },
+
+    handleDeleteService() {
+      this.$f7.dialog.confirm(
+        'Вы уверены что хотите удалить данную услугу?',
+        'Удаление Услуги',
+        () => {
+          this.deleteService({
+            docId: this.$f7route.params.id,
+            category: this.newCategory
+          }).then(() => {
+            this.$f7.popup.close('#popup-edit-services');
+          });
+        }
+      );
+    },
+
+    ...mapActions({
+      updateService: 'services/updateService',
+      deleteService: 'services/deleteService'
+    })
   }
 };
 </script>
