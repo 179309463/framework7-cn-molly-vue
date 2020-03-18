@@ -44,10 +44,10 @@ export default {
       return new Promise((resolve, reject) => {
         servicesCollection
           .get()
-          .then(querySnapshot => {
+          .then(snapshot => {
             const services = {};
 
-            const data = querySnapshot.docs.map(doc => ({
+            const data = snapshot.docs.map(doc => ({
               id: doc.id,
               ...doc.data()
             }));

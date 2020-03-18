@@ -1,5 +1,5 @@
 import { auth, employeesCollection } from '@/js/firebaseConfig.js';
-import { SET_EMPLOYEE } from '../mutations.js';
+import { SET_EMPLOYEE, SET_EMPLOYEES } from '../mutations.js';
 
 export default {
   state: {
@@ -9,11 +9,30 @@ export default {
   mutations: {
     [SET_EMPLOYEE]: (state, info) => {
       state.employees.push(info);
+    },
+
+    [SET_EMPLOYEES]: (state, employees) => {
+      state.employees = employees;
     }
   },
 
   actions: {
-    getEmployees({ commit }) {},
+    getEmployees({ commit }) {
+      return new Promise((resolve, reject) => {
+        employeesCollection
+          .get()
+          .then(snapshot => {
+            const employees = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+
+            commit(SET_EMPLOYEES, employees);
+            resolve();
+          })
+          .catch(error => reject(error));
+      });
+    },
 
     createEmployee({ commit }, { email, password, permissions }) {
       return new Promise((resolve, reject) => {
@@ -26,7 +45,7 @@ export default {
             } = userCredential;
             const info = {
               email,
-              ...permissions
+              permissions
             };
 
             // Set employee info

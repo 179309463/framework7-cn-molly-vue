@@ -1,6 +1,6 @@
 <template>
   <f7-popup id="popup-edit-services" swipe-to-close push>
-    <f7-view class="color-theme-black">
+    <f7-view>
       <f7-page>
         <f7-navbar>
           <f7-nav-left>
@@ -34,7 +34,6 @@
               sheetPush: true,
               closeOnSelect: true,
               sheetSwipeToClose: true,
-              cssClass: 'color-theme-black',
               sheetCloseLinkText: 'Закрыть'
             }"
           >

@@ -1,5 +1,6 @@
 // Emploees
 export const SET_EMPLOYEE = 'SET_EMPLOYEE';
+export const SET_EMPLOYEES = 'SET_EMPLOYEES';
 
 // Services
 export const SET_SERVICE = 'SET_SERVICE';

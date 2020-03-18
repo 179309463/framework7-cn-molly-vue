@@ -1,6 +1,6 @@
 <template>
   <f7-popup id="popup-create-services" swipe-to-close push>
-    <f7-view class="color-theme-black">
+    <f7-view>
       <f7-page>
         <f7-navbar title="Создание Услуги">
           <f7-nav-right>
@@ -27,7 +27,6 @@
               sheetPush: true,
               closeOnSelect: true,
               sheetSwipeToClose: true,
-              cssClass: 'color-theme-black',
               sheetCloseLinkText: 'Закрыть'
             }"
           >

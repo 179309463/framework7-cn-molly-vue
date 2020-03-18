@@ -1,8 +1,15 @@
+// Main Screens
 import HomePage from '@/pages/Home.vue';
 import AdminPage from '@/pages/Admin.vue';
-import CreateEmployeePopup from '@/pages/CreateEmployee.vue';
-import CreateServicesPopup from '@/pages/CreateServices.vue';
-import EditServicesPopup from '@/pages/EditServices.vue';
+
+// Employees
+import CreateEmployeePopup from '@/pages/employees/CreateEmployee.vue';
+
+// Services
+import CreateServicesPopup from '@/pages/services/CreateServices.vue';
+import EditServicesPopup from '@/pages/services/EditServices.vue';
+
+// Fallback
 import NotFoundPage from '@/pages/404.vue';
 
 var routes = [
@@ -11,27 +18,25 @@ var routes = [
     component: HomePage
   },
   {
-    path: '/admin',
+    path: '/admin/',
     component: AdminPage
   },
 
-  // Employeers
   {
-    path: '/create-employee',
+    path: '/create-employee/',
     popup: {
       component: CreateEmployeePopup
     }
   },
 
-  // Services
   {
-    path: '/create-services',
+    path: '/create-services/',
     popup: {
       component: CreateServicesPopup
     }
   },
   {
-    path: '/edit-services/:id',
+    path: '/edit-services/:id/',
     popup: {
       component: EditServicesPopup
     }

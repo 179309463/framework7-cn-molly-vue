@@ -1,6 +1,6 @@
 <template>
   <f7-popup id="popup-create-employee" swipe-to-close push>
-    <f7-view class="color-theme-black">
+    <f7-view>
       <f7-page>
         <f7-navbar title="Создание Сотрудника">
           <f7-nav-right>
@@ -35,7 +35,7 @@
 
         <f7-block-title class="title-with-actions">
           Разрешенные действия
-          <f7-link icon-f7="ellipsis_circle_fill" icon-size="23"></f7-link>
+          <f7-link icon-f7="ellipsis_circle" icon-size="23"></f7-link>
         </f7-block-title>
 
         <f7-list>
@@ -69,6 +69,7 @@ import { db, auth, staffCollection } from '@/js/firebaseConfig.js';
 import notify from '@/js/helpers/notify.js';
 import validateEmail from '@/js/helpers/validateEmail.js';
 import firebaseErrorToHumanError from '@/js/const/firebaseErrorToHumanError.js';
+import permissions from '@/js/const/employeePermissions.js';
 
 export default {
   name: 'CreateEmployee',
@@ -77,28 +78,7 @@ export default {
     return {
       email: { value: '', error: '' },
       password: { value: '', error: '' },
-      permissions: [
-        {
-          name: 'canCreateEmployeers',
-          title: 'Создание Сотрудников',
-          value: false
-        },
-        {
-          name: 'canEditEmployeers',
-          title: 'Редактирование Сотрудников',
-          value: false
-        },
-        {
-          name: 'canCreateServices',
-          title: 'Создание услуг',
-          value: false
-        },
-        {
-          name: 'canEditServices',
-          title: 'Редактирование услуг',
-          value: false
-        }
-      ]
+      permissions
     };
   },
 
@@ -142,13 +122,6 @@ export default {
       merge(this.password, errors.password);
     },
 
-    setUserInfo(uid) {
-      const permissions = this.permissions.reduce((result, item) => {
-        result[item['name']] = item['value'];
-        return result;
-      }, {});
-    },
-
     handleCreateEmployee() {
       if (!this.validate()) {
         return;
@@ -170,6 +143,7 @@ export default {
         })
         .then(() => {
           this.$f7.dialog.close();
+          this.$f7.popup.close('#popup-create-employee');
         })
         .catch(error => {
           this.$f7.dialog.close();

@@ -1,7 +1,7 @@
 <template>
   <f7-app :params="f7params">
     <LeftPanel />
-    <f7-view main class="safe-areas color-theme-black" url="/"></f7-view>
+    <f7-view main class="safe-areas" url="/"></f7-view>
     <LoginScreen />
   </f7-app>
 </template>

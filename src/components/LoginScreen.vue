@@ -1,5 +1,5 @@
 <template>
-  <f7-login-screen id="login-screen" class="color-theme-black">
+  <f7-login-screen id="login-screen">
     <f7-view>
       <f7-page login-screen>
         <f7-login-screen-title>Вход</f7-login-screen-title>
