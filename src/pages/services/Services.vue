@@ -1,5 +1,10 @@
 <template>
-  <f7-tab :id="id" :tab-active="tabActive" class="page-content">
+  <f7-tab
+    :id="id"
+    :tab-active="tabActive"
+    @tab:show="tabShow"
+    class="page-content"
+  >
     <f7-block v-if="loading" class="loader">
       <f7-preloader color="black"></f7-preloader>
     </f7-block>
@@ -77,10 +82,12 @@ export default {
     }
   },
 
-  created() {
-    this.$store
-      .dispatch('services/getServices')
-      .then(() => (this.loading = false));
+  methods: {
+    tabShow() {
+      this.$store
+        .dispatch('services/getServices')
+        .then(() => (this.loading = false));
+    }
   }
 };
 </script>
