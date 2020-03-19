@@ -34,18 +34,23 @@
         </f7-list>
 
         <f7-block-title class="title-with-actions">
-          Разрешенные действия
-          <f7-link icon-f7="ellipsis_circle" icon-size="23"></f7-link>
+          Должность
         </f7-block-title>
 
         <f7-list>
-          <f7-list-item v-for="(permission, index) in permissions" :key="index">
-            <span>{{ permission.title }}</span>
-            <f7-toggle
-              :checked="permission.value"
-              @toggle:change="permission.value = !permission.value"
-            ></f7-toggle>
-          </f7-list-item>
+          <f7-list-item
+            v-for="(pos, index) in positions"
+            :key="index"
+            :title="pos.title"
+            :value="pos.name"
+            :checked="pos.name === position.value"
+            @change="
+              $event.target.checked
+                ? (position.value = $event.target.value)
+                : (position.value = '')
+            "
+            checkbox
+          ></f7-list-item>
         </f7-list>
 
         <f7-block>
@@ -69,7 +74,7 @@ import { db, auth, staffCollection } from '@/js/firebaseConfig.js';
 import notify from '@/js/helpers/notify.js';
 import validateEmail from '@/js/helpers/validateEmail.js';
 import firebaseErrorToHumanError from '@/js/const/firebaseErrorToHumanError.js';
-import permissions from '@/js/const/employeePermissions.js';
+import positions from '@/js/const/employeePositions.js';
 
 export default {
   name: 'CreateEmployee',
@@ -78,17 +83,19 @@ export default {
     return {
       email: { value: '', error: '' },
       password: { value: '', error: '' },
-      permissions
+      position: { value: '', error: '' },
+      positions
     };
   },
 
   methods: {
     validate() {
       const errors = {};
-      const { email, password } = this;
+      const { email, password, position } = this;
 
       email.error = '';
       password.error = '';
+      position.error = '';
 
       if (!validateEmail(email.value)) {
         errors.email = 'Неправильный формат эл. почты';
@@ -106,6 +113,11 @@ export default {
         errors.password = 'Минимум 6 символов';
       }
 
+      if (!position.value) {
+        notify('Выберите должность нового работника!');
+        errors.position = 'error';
+      }
+
       if (isEmpty(errors)) {
         return true;
       }
@@ -116,10 +128,9 @@ export default {
         };
       });
 
-      console.log(errors);
-
       merge(this.email, errors.email);
       merge(this.password, errors.password);
+      merge(this.position, errors.position);
     },
 
     handleCreateEmployee() {
@@ -127,19 +138,15 @@ export default {
         return;
       }
 
-      const { email, password } = this;
-      const permissions = this.permissions.reduce((result, item) => {
-        result[item['name']] = item['value'];
-        return result;
-      }, {});
+      const { email, password, position } = this;
 
       this.$f7.dialog.preloader('Регистрация сотрудника...');
 
       this.$store
         .dispatch('employees/createEmployee', {
           email: email.value,
-          password: password.value,
-          permissions
+          password: password.value
+          // position: position.value
         })
         .then(() => {
           this.$f7.dialog.close();

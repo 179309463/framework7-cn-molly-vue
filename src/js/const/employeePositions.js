@@ -1,23 +1,19 @@
 const employeePositions = [
   {
     title: 'Директор',
-    name: 'director',
-    value: false
+    name: 'director'
   },
   {
     title: 'Администратор',
-    name: 'administrator',
-    value: false
+    name: 'administrator'
   },
   {
     title: 'Мастер',
-    name: 'master',
-    value: false
+    name: 'master'
   },
   {
     title: 'Стажер',
-    name: 'trainee',
-    value: false
+    name: 'trainee'
   }
 ];
 
