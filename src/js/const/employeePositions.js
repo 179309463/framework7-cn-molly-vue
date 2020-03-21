@@ -1,5 +1,9 @@
 const employeePositions = [
   {
+    title: 'Владелец',
+    name: 'owner'
+  },
+  {
     title: 'Директор',
     name: 'director'
   },

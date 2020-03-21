@@ -30,7 +30,7 @@
             service.maxCoast ? `- ${service.maxCoast}` : ''
           } ${service.currency}`
         "
-        :link="`/edit-services/${service.id}`"
+        :link="`/edit-services/${service.id}/`"
         :route-props="{ category: 'manicure' }"
       >
       </f7-list-item>
@@ -46,7 +46,7 @@
             service.maxCoast ? `- ${service.maxCoast}` : ''
           } ${service.currency}`
         "
-        :link="`/edit-services/${service.id}`"
+        :link="`/edit-services/${service.id}/`"
         :route-props="{ category: 'pedicure' }"
       >
       </f7-list-item>

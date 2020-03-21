@@ -140,13 +140,21 @@ export default {
 
       const { email, password, position } = this;
 
-      this.$f7.dialog.preloader('Регистрация сотрудника...');
+      this.$f7.dialog.preloader(
+        `Регистрация ${
+          this.positions.find(pos => pos.name === position.value).title
+        }...`
+      );
 
       this.$store
         .dispatch('employees/createEmployee', {
           email: email.value,
-          password: password.value
-          // position: position.value
+          password: password.value,
+          name: '',
+          lastName: '',
+          phoneNumber: '',
+          position: position.value,
+          isActive: false
         })
         .then(() => {
           this.$f7.dialog.close();

@@ -34,7 +34,10 @@ export default {
       });
     },
 
-    createEmployee({ commit }, { email, password, permissions }) {
+    createEmployee(
+      { commit },
+      { email, password, name, lastName, phoneNumber, position, isActive }
+    ) {
       return new Promise((resolve, reject) => {
         // Create account
         auth
@@ -45,7 +48,11 @@ export default {
             } = userCredential;
             const info = {
               email,
-              permissions
+              name,
+              lastName,
+              phoneNumber,
+              position,
+              isActive
             };
 
             // Set employee info
@@ -59,6 +66,22 @@ export default {
           })
           .catch(error => reject(error));
       });
+    },
+
+    updateEmployee({ commi }, { id, ...info }) {
+      return new Promise((resolve, reject) => {
+        employeesCollection
+          .doc(id)
+          .update(info)
+          .then(() => {
+            console.log(1);
+            resolve();
+          })
+          .catch(error => reject(error));
+      });
     }
+
+    // TODO
+    // deleteEmployee({ commit }, docId) {}
   }
 };

@@ -88,7 +88,6 @@
 <script>
 import { merge, isEmpty } from 'lodash';
 import { mapActions } from 'vuex';
-import { servicesCollection } from '@/js/firebaseConfig.js';
 import notify from '@/js/helpers/notify.js';
 
 export default {
@@ -190,10 +189,7 @@ export default {
       );
     },
 
-    ...mapActions({
-      updateService: 'services/updateService',
-      deleteService: 'services/deleteService'
-    })
+    ...mapActions('services', ['updateService', 'deleteService'])
   }
 };
 </script>

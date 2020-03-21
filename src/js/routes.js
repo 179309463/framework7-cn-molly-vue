@@ -4,6 +4,7 @@ import AdminPage from '@/pages/Admin.vue';
 
 // Employees
 import CreateEmployeePopup from '@/pages/employees/CreateEmployee.vue';
+import EditEmployeePopup from '@/pages/employees/EditEmployee.vue';
 
 // Services
 import CreateServicesPopup from '@/pages/services/CreateServices.vue';
@@ -26,6 +27,12 @@ var routes = [
     path: '/create-employee/',
     popup: {
       component: CreateEmployeePopup
+    }
+  },
+  {
+    path: '/edit-employee/:id/',
+    popup: {
+      component: EditEmployeePopup
     }
   },
 
