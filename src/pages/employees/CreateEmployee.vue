@@ -53,6 +53,20 @@
           ></f7-list-item>
         </f7-list>
 
+        <f7-block-title class="title-with-actions">
+          Дополнительно
+        </f7-block-title>
+
+        <f7-list>
+          <f7-list-item>
+            <span>Показывать в форме заявки</span>
+            <f7-toggle
+              :checked="isShowInApplicationForm"
+              @toggle:change="val => (isShowInApplicationForm = val)"
+            ></f7-toggle>
+          </f7-list-item>
+        </f7-list>
+
         <f7-block>
           <f7-button
             fill
@@ -84,8 +98,20 @@ export default {
       email: { value: '', error: '' },
       password: { value: '', error: '' },
       position: { value: '', error: '' },
+      isShowInApplicationForm: false,
       positions
     };
+  },
+
+  watch: {
+    'position.value'(val) {
+      if (
+        !this.isShowInApplicationForm &&
+        (val === 'master' || val === 'trainee')
+      ) {
+        this.isShowInApplicationForm = true;
+      }
+    }
   },
 
   methods: {
@@ -138,7 +164,7 @@ export default {
         return;
       }
 
-      const { email, password, position } = this;
+      const { email, password, isShowInApplicationForm, position } = this;
 
       this.$f7.dialog.preloader(
         `Регистрация ${
@@ -153,8 +179,9 @@ export default {
           name: '',
           lastName: '',
           phoneNumber: '',
-          position: position.value,
-          isActive: false
+          isActive: false,
+          isShowInApplicationForm,
+          position: position.value
         })
         .then(() => {
           this.$f7.dialog.close();

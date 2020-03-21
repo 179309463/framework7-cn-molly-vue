@@ -34,10 +34,7 @@ export default {
       });
     },
 
-    createEmployee(
-      { commit },
-      { email, password, name, lastName, phoneNumber, position, isActive }
-    ) {
+    createEmployee({ commit }, { email, password, ...data }) {
       return new Promise((resolve, reject) => {
         // Create account
         auth
@@ -46,21 +43,15 @@ export default {
             const {
               user: { uid }
             } = userCredential;
-            const info = {
-              email,
-              name,
-              lastName,
-              phoneNumber,
-              position,
-              isActive
-            };
 
             // Set employee info
+            const info = { email, ...data };
+
             employeesCollection
               .doc(uid)
               .set(info)
               .then(() => {
-                commit(SET_EMPLOYEE, info);
+                commit(SET_EMPLOYEE, { id: uid, ...info });
                 resolve();
               });
           })
@@ -73,10 +64,7 @@ export default {
         employeesCollection
           .doc(id)
           .update(info)
-          .then(() => {
-            console.log(1);
-            resolve();
-          })
+          .then(() => resolve())
           .catch(error => reject(error));
       });
     }

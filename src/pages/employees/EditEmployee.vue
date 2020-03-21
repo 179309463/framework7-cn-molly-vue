@@ -52,6 +52,13 @@
               @toggle:change="val => (isActive = val)"
             ></f7-toggle>
           </f7-list-item>
+          <f7-list-item>
+            <span>Показывать в форме заявки</span>
+            <f7-toggle
+              :checked="isShowInApplicationForm"
+              @toggle:change="val => (isShowInApplicationForm = val)"
+            ></f7-toggle>
+          </f7-list-item>
 
           <f7-block>
             <f7-segmented>
@@ -85,7 +92,8 @@ export default {
       lastName: { value: '', error: '' },
       phoneNumber: { value: '', error: '' },
       email: '',
-      isActive: false
+      isActive: false,
+      isShowInApplicationForm: false
     };
   },
 
@@ -98,13 +106,21 @@ export default {
   },
 
   created() {
-    const { name, lastName, phoneNumber, email, isActive } = this.employee;
+    const {
+      name,
+      lastName,
+      phoneNumber,
+      email,
+      isActive,
+      isShowInApplicationForm
+    } = this.employee;
 
     this.name.value = name;
     this.lastName.value = lastName;
     this.phoneNumber.value = phoneNumber;
     this.email = email;
     this.isActive = isActive;
+    this.isShowInApplicationForm = isShowInApplicationForm;
   },
 
   methods: {
@@ -150,6 +166,8 @@ export default {
 
       const { name, lastName, phoneNumber, email, isActive } = this;
 
+      this.$f7.preloader.show();
+
       this.updateEmployee({
         id: this.$f7route.params.id,
         name: name.value,
@@ -157,7 +175,15 @@ export default {
         phoneNumber: phoneNumber.value,
         email,
         isActive
-      });
+      })
+        .then(() => {
+          this.$f7.preloader.hide();
+          notify('Данные успешно изменены!');
+        })
+        .catch(() => {
+          this.$f7.preloader.hide();
+          notify('Не удалось изменить данные, попробуйте еще раз!');
+        });
     },
 
     ...mapActions('employees', ['updateEmployee'])

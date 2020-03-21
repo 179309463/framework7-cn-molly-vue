@@ -24,8 +24,8 @@ firebase.initializeApp(firebaseConfig);
 // Firestore
 const db = firebase.firestore();
 const employeesCollection = db.collection('employees');
-const clientsCollection = db.collection('clients');
 const servicesCollection = db.collection('services');
+const clientsCollection = db.collection('clients');
 
 // Authorization
 const auth = firebase.auth();

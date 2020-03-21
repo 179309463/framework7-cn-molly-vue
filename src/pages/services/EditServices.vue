@@ -162,6 +162,8 @@ export default {
 
       const { title, newCategory, coast, maxCoast } = this;
 
+      this.$f7.preloader.show();
+
       this.updateService({
         docId: this.$f7route.params.id,
         title: title.value,
@@ -169,9 +171,14 @@ export default {
         coast: coast.value,
         maxCoast: maxCoast.value,
         currency: 'руб'
-      }).then(() => {
-        notify('Данные об услуге успешно изменены!');
-      });
+      })
+        .then(() => {
+          this.$f7.preloader.hide();
+          notify('Данные об услуге успешно изменены!');
+        })
+        .catch(() => {
+          this.$f7.preloader.hide();
+        });
     },
 
     handleDeleteService() {

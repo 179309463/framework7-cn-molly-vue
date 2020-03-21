@@ -14,99 +14,22 @@
     </f7-block-title>
 
     <f7-list v-if="!loading" media-list>
-      <f7-list-item divider title="Владелец(ы)"></f7-list-item>
       <f7-list-item
-        v-for="owner in owners"
-        :key="owner.id"
-        :title="owner.name ? `${owner.lastName} ${owner.name}` : 'Не заполнено'"
-        :subtitle="owner.email"
-        :badge="owner.isActive ? 'Активен' : 'Неактивен'"
-        :badge-color="owner.isActive ? 'green' : 'gray'"
-        :swipeout="!!owner.phoneNumber"
-        :link="`/edit-employee/${owner.id}/`"
-      >
-        <f7-swipeout-actions right>
-          <f7-swipeout-button v-if="owner.phoneNumber" color="green">
-            <f7-icon f7="phone_fill"></f7-icon>
-          </f7-swipeout-button>
-        </f7-swipeout-actions>
-      </f7-list-item>
-
-      <f7-list-item divider title="Директор(а)"></f7-list-item>
-      <f7-list-item
-        v-for="director in directors"
-        :key="director.id"
+        v-for="employee in employees"
+        :key="employee.id"
         :title="
-          director.name
-            ? `${director.lastName} ${director.name}`
+          employee.name
+            ? `${employee.lastName} ${employee.name}`
             : 'Не заполнено'
         "
-        :subtitle="director.email"
-        :badge="director.isActive ? 'Активен' : 'Неактивен'"
-        :badge-color="director.isActive ? 'green' : 'gray'"
-        :swipeout="!!director.phoneNumber"
-        :link="`/edit-employee/${director.id}/`"
+        :subtitle="employee.email"
+        :badge="employee.isActive ? 'Активен' : 'Неактивен'"
+        :badge-color="employee.isActive ? 'green' : 'gray'"
+        :swipeout="!!employee.phoneNumber"
+        :link="`/edit-employee/${employee.id}/`"
       >
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="green">
-            <f7-icon f7="phone_fill"></f7-icon>
-          </f7-swipeout-button>
-        </f7-swipeout-actions>
-      </f7-list-item>
-
-      <f7-list-item divider title="Администратор(ы)"></f7-list-item>
-      <f7-list-item
-        v-for="admin in administrators"
-        :key="admin.id"
-        :title="admin.name ? `${admin.lastName} ${admin.name}` : 'Не заполнено'"
-        :subtitle="admin.email"
-        :badge="admin.isActive ? 'Активен' : 'Неактивен'"
-        :badge-color="admin.isActive ? 'green' : 'gray'"
-        :swipeout="!!admin.phoneNumber"
-        :link="`/edit-employee/${admin.id}/`"
-      >
-        <f7-swipeout-actions right>
-          <f7-swipeout-button color="green">
-            <f7-icon f7="phone_fill"></f7-icon>
-          </f7-swipeout-button>
-        </f7-swipeout-actions>
-      </f7-list-item>
-
-      <f7-list-item divider title="Мастер(а)"></f7-list-item>
-      <f7-list-item
-        v-for="master in masters"
-        :key="master.id"
-        :title="
-          master.name ? `${master.lastName} ${master.name}` : 'Не заполнено'
-        "
-        :subtitle="master.email"
-        :badge="master.isActive ? 'Активен' : 'Неактивен'"
-        :badge-color="master.isActive ? 'green' : 'gray'"
-        :swipeout="!!master.phoneNumber"
-        :link="`/edit-employee/${master.id}/`"
-      >
-        <f7-swipeout-actions right>
-          <f7-swipeout-button color="green">
-            <f7-icon f7="phone_fill"></f7-icon>
-          </f7-swipeout-button>
-        </f7-swipeout-actions>
-      </f7-list-item>
-
-      <f7-list-item divider title="Стажер(ы)"></f7-list-item>
-      <f7-list-item
-        v-for="trainee in trainees"
-        :key="trainee.id"
-        :title="
-          trainee.name ? `${trainee.lastName} ${trainee.name}` : 'Не заполнено'
-        "
-        :subtitle="trainee.email"
-        :badge="trainee.isActive ? 'Активен' : 'Неактивен'"
-        :badge-color="trainee.isActive ? 'green' : 'gray'"
-        :swipeout="!!trainee.phoneNumber"
-        :link="`/edit-employee/${trainee.id}/`"
-      >
-        <f7-swipeout-actions right>
-          <f7-swipeout-button color="green">
+          <f7-swipeout-button v-if="employee.phoneNumber" color="green">
             <f7-icon f7="phone_fill"></f7-icon>
           </f7-swipeout-button>
         </f7-swipeout-actions>
@@ -141,18 +64,7 @@ export default {
 
   computed: {
     ...mapState('employees', {
-      owners: state =>
-        state.employees.filter(employee => employee.position === 'owner'),
-      directors: state =>
-        state.employees.filter(employee => employee.position === 'director'),
-      administrators: state =>
-        state.employees.filter(
-          employee => employee.position === 'administrator'
-        ),
-      masters: state =>
-        state.employees.filter(employee => employee.position === 'master'),
-      trainees: state =>
-        state.employees.filter(employee => employee.position === 'trainee')
+      employees: state => state.employees
     })
   },
 
