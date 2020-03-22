@@ -1,5 +1,7 @@
 // Main Screens
 import HomePage from '@/pages/Home.vue';
+import LoadingPage from '@/pages/Loading.vue';
+import ProfilePage from '@/pages/Profile.vue';
 import AdminPage from '@/pages/Admin.vue';
 
 // Employees
@@ -19,8 +21,16 @@ var routes = [
     component: HomePage
   },
   {
+    path: '/loading/',
+    component: LoadingPage
+  },
+  {
     path: '/admin/',
     component: AdminPage
+  },
+  {
+    path: '/profile/',
+    component: ProfilePage
   },
 
   {

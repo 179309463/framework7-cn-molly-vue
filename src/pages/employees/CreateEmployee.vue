@@ -87,7 +87,7 @@ import { merge, isEmpty } from 'lodash';
 import { db, auth, staffCollection } from '@/js/firebaseConfig.js';
 import notify from '@/js/helpers/notify.js';
 import validateEmail from '@/js/helpers/validateEmail.js';
-import firebaseErrorToHumanError from '@/js/const/firebaseErrorToHumanError.js';
+import firebaseErrorToHumanError from '@/js/helpers/firebaseErrorToHumanError.js';
 import positions from '@/js/const/employeePositions.js';
 
 export default {

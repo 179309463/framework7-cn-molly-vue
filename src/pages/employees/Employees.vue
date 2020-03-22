@@ -15,7 +15,7 @@
 
     <f7-list v-if="!loading" media-list>
       <f7-list-item
-        v-for="employee in employees"
+        v-for="employee in employees.filter(employee => employee.id !== userId)"
         :key="employee.id"
         :title="
           employee.name
@@ -63,8 +63,9 @@ export default {
   },
 
   computed: {
-    ...mapState('employees', {
-      employees: state => state.employees
+    ...mapState({
+      userId: state => state.user.info.id,
+      employees: state => state.employees.employees
     })
   },
 

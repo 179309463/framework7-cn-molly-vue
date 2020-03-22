@@ -36,7 +36,10 @@
 
 <script>
 import { merge, isEmpty } from 'lodash';
+import { auth } from '@/js/firebaseConfig.js';
+import notify from '@/js/helpers/notify.js';
 import validateEmail from '@/js/helpers/validateEmail.js';
+import firebaseErrorToHumanError from '@/js/helpers/firebaseErrorToHumanError.js';
 
 export default {
   name: 'LoginScreen',
@@ -91,15 +94,25 @@ export default {
         return;
       }
 
-      console.log('VALID');
+      this.$f7.preloader.show();
+      const { email, password } = this;
 
-      // const { email, password } = this;
-
-      // auth
-      //   .createUserWithEmailAndPassword(email.value, password.value)
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
+      auth
+        .signInWithEmailAndPassword(email.value, password.value)
+        .then(user => {
+          this.$f7.preloader.hide();
+          this.$store.commit('user/SET_USER_ID', user.uid);
+          this.$f7.loginScreen.close('#login-screen');
+          this.$f7.views.main.router.navigate('/', {
+            clearPreviousHistory: true
+          });
+        })
+        .catch(error => {
+          this.$f7.preloader.hide();
+          firebaseErrorToHumanError(error.code, message => {
+            notify(message);
+          });
+        });
     }
   }
 };

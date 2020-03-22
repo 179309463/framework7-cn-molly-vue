@@ -24,6 +24,10 @@
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+
+  created() {
+    this.$store.dispatch('user/getUserInfo');
+  }
 };
 </script>
