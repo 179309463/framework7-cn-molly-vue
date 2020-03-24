@@ -19,6 +19,7 @@
             :error-message-force="!!name.error"
             @input="name.value = $event.target.value"
           ></f7-list-input>
+
           <f7-list-input
             type="text"
             name="lastName"
@@ -28,6 +29,7 @@
             :error-message-force="!!lastName.error"
             @input="lastName.value = $event.target.value"
           ></f7-list-input>
+
           <f7-list-input
             type="tel"
             name="phoneNumber"
@@ -38,6 +40,7 @@
             :error-message-force="!!phoneNumber.error"
             @input="phoneNumber.value = $event.target.value"
           ></f7-list-input>
+
           <f7-list-input
             type="text"
             name="email"
@@ -45,6 +48,7 @@
             disabled
             :value="email"
           ></f7-list-input>
+
           <f7-list-item>
             <span>Аккаунт активен</span>
             <f7-toggle
@@ -52,6 +56,7 @@
               @toggle:change="val => (isActive = val)"
             ></f7-toggle>
           </f7-list-item>
+
           <f7-list-item>
             <span>Показывать в форме заявки</span>
             <f7-toggle

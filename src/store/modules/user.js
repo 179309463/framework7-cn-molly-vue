@@ -25,6 +25,19 @@ export default {
           const info = doc.data();
           commit(SET_USER_INFO, info);
         });
+    },
+
+    updateUserInfo({ commit }, { id, ...info }) {
+      return new Promise((resolve, reject) => {
+        employeesCollection
+          .doc(id)
+          .update(info)
+          .then(() => {
+            commit(SET_USER_INFO, info);
+            resolve();
+          })
+          .catch(error => reject(error));
+      });
     }
   }
 };

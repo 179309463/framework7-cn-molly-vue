@@ -2,6 +2,7 @@
 import HomePage from '@/pages/Home.vue';
 import LoadingPage from '@/pages/Loading.vue';
 import ProfilePage from '@/pages/Profile.vue';
+import EditProfilePage from '@/pages/EditProfile.vue';
 import AdminPage from '@/pages/Admin.vue';
 
 // Employees
@@ -31,6 +32,10 @@ var routes = [
   {
     path: '/profile/',
     component: ProfilePage
+  },
+  {
+    path: '/edit-profile/',
+    component: EditProfilePage
   },
 
   {
