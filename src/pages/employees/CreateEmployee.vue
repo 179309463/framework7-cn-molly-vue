@@ -33,7 +33,7 @@
           ></f7-list-input>
         </f7-list>
 
-        <f7-block-title class="title-with-actions">
+        <f7-block-title>
           Должность
         </f7-block-title>
 
@@ -53,7 +53,7 @@
           ></f7-list-item>
         </f7-list>
 
-        <f7-block-title class="title-with-actions">
+        <f7-block-title>
           Дополнительно
         </f7-block-title>
 
